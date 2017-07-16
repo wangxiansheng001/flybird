@@ -1,37 +1,57 @@
-## Welcome to GitHub Pages
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		.box{
+			position: relative;
+			width:200px;
+			height:200px;
+			border:1px solid #333;
+		}
+		.box canvas{
+			position: absolute;
+			top:0;
+			left:0;
+		}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<canvas id="canvas" width="200" height="200"></canvas>
+		<img id="myimg"/>
+	</div>
+	
+	<script type="text/javascript" src="underscore-min.js"></script>
+	<script type="text/javascript">
+		var myimg = document.getElementById("myimg");
+		myimg.src = "images/" + _.sample(["baby.png" , "liyifeng.png" , "luhan.png","wangjunkai.png","xiaoming.png","yangyang.png"],1)[0];
+	</script>
 
-You can use the [editor on GitHub](https://github.com/wangxiansheng001/flybird/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+		ctx.fillStyle = "#333";
+		ctx.fillRect(0,0,200,200);
+		ctx.globalCompositeOperation = "destination-out";
 
-### Markdown
+		canvas.onmousedown = function(event){
+			this.onmousemove = function(event){
+				var x = event.offsetX;
+				var y = event.offsetY;
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+				ctx.beginPath();
+				ctx.arc(x,y,30,0,7,false);
+				ctx.closePath();
+				ctx.fill();
+			}
+		}
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/wangxiansheng001/flybird/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+		canvas.onmouseup = function(){
+			this.onmousemove = null;
+		}
+	</script>
+</body>
+</html>
